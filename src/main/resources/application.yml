@@ -1,0 +1,16 @@
+server:
+  port: 9001
+  context-path: /
+
+info:
+  version: @pom.version@
+  stage: ${spring.profiles.active}
+
+spring:
+  profiles:
+    active: dev
+
+spring.http.encoding.force: true
+spring.http.encoding.charset: UTF-8
+spring.http.encoding.enabled: true
+server.tomcat.uri-encoding: UTF-8

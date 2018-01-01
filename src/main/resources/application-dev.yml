@@ -1,0 +1,49 @@
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    preferIpAddress: true
+    statusPageUrlPath: ${management.context-path}/info
+    healthCheckUrlPath: ${management.context-path}/health
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://discovery.dev.clozeblur.com/eureka/
+
+# redis cluster
+core.cache.redis:
+  redisNodes: 127.0.0.1:7070
+  maxTotal: 50
+  minIdle: 5
+  maxIdle: 30
+  maxWaitMillis: 10000
+  testWhileIdle: false
+  timeout: 5000
+  maxRedirections: 6
+
+
+spring:
+  application:
+    name: clozeblur-config-server
+  cloud:
+    config:
+      server:
+        defaultLabel: master
+        git:
+          uri: http://github.com/clozeblur/dev-config-repo.git
+          searchPaths: config-*
+          #以下两个参数从环境获得,以此控制权限
+          username: ${configServerUsername}
+          password: ${configServerPassword}
+          repos:
+            groupA:
+              pattern: groupA-secret-*
+              uri: http://github.com/clozeblur/secret/config-groupA.git
+              searchPaths: config-*
+              username: ${configServerUsername}
+              password: ${configServerPassword}
+            groupB:
+              pattern: groupB-secret-*
+              uri: http://github.com/clozeblur/secret/config-groupB.git
+              searchPaths: config-*
+              username: ${configServerUsername}
+              password: ${configServerPassword}
